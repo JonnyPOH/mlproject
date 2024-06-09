@@ -2,7 +2,15 @@ FROM python:3.8-slim-buster
 WORKDIR /app
 COPY . /app
 
-RUN apt update -y && apt install awscli -y
+# Update the package lists and install awscli
+RUN apt-get update -y && apt-get install -y awscli
 
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 unzip -y && pip install -r requirements.txt
+
+# Install other dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    libsm6 \
+    libxext6 \
+    unzip && \
+    pip install -r requirements.txt
 CMD ["python3", "application.py"]
